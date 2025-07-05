@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TON CONNECT WALLET</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      width: 200px;
+      height: 50px;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #1a73e8;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0c5cd6;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="connectWallet()">CONNECT WALLET</button>
+  <div id="wallet-address"></div>
+
+  <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+  <script>
+    const connector = new TonConnectSDK.TonConnect({
+      manifestUrl: "https://curious-kulfi-94dca2.netlify.app/tonconnect-manifest.json"
+    });
+
+    window.connectWallet = async () => {
+      try {
+        const walletConnectionSource = {
+          universalLink: "https://app.tonkeeper.com/ton-connect",
+          bridgeUrl: "https://bridge.tonapi.io/bridge"
+        };
+
+        // Get the Tonkeeper connection link
+        const universalLink = await connector.connect(walletConnectionSource);
+
+        console.log("Opening Tonkeeper:", universalLink);
+
+        // 🔑 This opens Tonkeeper
+        window.open(universalLink, "_blank");
+
+      } catch (error) {
+        console.error("Connection cancelled or failed:", error);
+        document.getElementById("wallet-address").innerHTML = `<p style="color:red;">Connection failed or cancelled.</p>`;
+      }
+    };
+
+    // Optional: Listen for connection
+    connector.onStatusChange((status) => {
+      if (status) {
+        const rawAddress = status.account.address;
+        document.getElementById("wallet-address").innerHTML = `<p>Connected Wallet Address: ${rawAddress}</p>`;
+      }
+    });
+  </script>
+</body>
+  </html>
