@@ -9,7 +9,23 @@
   <!-- TON Connect UI library -->
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4; /* optional background color */
+    }
+
+    #ton-connect {
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,7 +39,7 @@
 
     // Set the Telegram return URL
     tonConnectUI.uiOptions = {
-      twaReturnUrl: 'https://t.me/TonReward_Bot'  // replace with your Telegram bot link
+      twaReturnUrl: 'https://t.me/TonReward_Bot'
     };
   </script>
 </body>
